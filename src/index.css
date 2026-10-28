@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+@layer utilities {
+  /* Neomorphic Raised */
+  .neo-raised {
+    background-color: #EEF2F6;
+    box-shadow: 6px 6px 14px #d3dbe7, -6px -6px 14px #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+  }
+
+  .neo-raised-sm {
+    background-color: #EEF2F6;
+    box-shadow: 3px 3px 8px #d3dbe7, -3px -3px 8px #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+  }
+
+  .neo-raised-lg {
+    background-color: #EEF2F6;
+    box-shadow: 10px 10px 24px #cad4e2, -10px -10px 24px #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+  }
+
+  /* Neomorphic Inset (Cavity/Input/Pressed) */
+  .neo-inset {
+    background-color: #EEF2F6;
+    box-shadow: inset 3px 3px 7px #d0d8e4, inset -3px -3px 7px #ffffff;
+    border: 1px solid rgba(209, 217, 230, 0.4);
+  }
+
+  .neo-inset-sm {
+    background-color: #EEF2F6;
+    box-shadow: inset 2px 2px 5px #d3dbe7, inset -2px -2px 5px #ffffff;
+  }
+
+  .neo-inset-deep {
+    background-color: #E8EDF3;
+    box-shadow: inset 4px 4px 9px #cbd5e1, inset -4px -4px 9px #ffffff;
+  }
+
+  /* Interactive Button with Soft Click State */
+  .neo-btn {
+    background-color: #EEF2F6;
+    color: #1E293B;
+    box-shadow: 4px 4px 10px #d3dbe7, -4px -4px 10px #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    transition: all 0.15s ease;
+  }
+
+  .neo-btn:hover {
+    box-shadow: 5px 5px 12px #cdd7e5, -5px -5px 12px #ffffff;
+  }
+
+  .neo-btn:active, .neo-btn-active {
+    box-shadow: inset 3px 3px 6px #d0d8e4, inset -3px -3px 6px #ffffff;
+  }
+
+  /* Vibrant Solid Primary Button (Guarantees White Text on Blue Background) */
+  .neo-btn-primary {
+    background-color: #2563EB !important;
+    color: #ffffff !important;
+    box-shadow: 4px 4px 14px rgba(37, 99, 235, 0.35), -2px -2px 8px #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.15s ease;
+  }
+
+  .neo-btn-primary:hover {
+    background-color: #1D4ED8 !important;
+    color: #ffffff !important;
+    box-shadow: 5px 5px 16px rgba(29, 78, 216, 0.45), -2px -2px 10px #ffffff;
+  }
+
+  .neo-btn-primary:active {
+    background-color: #1E40AF !important;
+    box-shadow: inset 2px 2px 6px rgba(0, 0, 0, 0.25);
+  }
+
+  /* Photo Frame Neomorphism */
+  .neo-photo-card {
+    background-color: #EEF2F6;
+    box-shadow: 5px 5px 14px #d2dae7, -5px -5px 14px #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .neo-photo-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 8px 8px 18px #cad4e2, -8px -8px 18px #ffffff;
+  }
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  background-color: #EEF2F6;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+

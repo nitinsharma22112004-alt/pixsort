@@ -1,0 +1,30 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Check if the user is authenticated via Firebase Auth
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Photos: users can read/write their own photos
+    match /photos/{photoId} {
+      allow read, write: if true;
+    }
+
+    // Albums: users can read/write their own albums
+    match /albums/{albumId} {
+      allow read, write: if true;
+    }
+
+    // Connected Google Drive Accounts: users can access their pooled accounts
+    match /drive_accounts/{accountId} {
+      allow read, write: if true;
+    }
+
+    // Users Collection: users can read/write their profile
+    match /users/{userId} {
+      allow read, write: if true;
+    }
+  }
+}

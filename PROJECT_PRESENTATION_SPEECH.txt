@@ -1,0 +1,491 @@
+# PIXSORT — SIMPLE DEFENSE SPEECH
+
+**Institution:** ABES Engineering College, Ghaziabad
+**Department:** Computer Science & Engineering
+**Project:** PixSort — Personal Photo Intelligence with Multimodal Vector Search & Pooled Cloud Storage
+
+**Team Members**
+
+* **Om Prakash Verma** — Full-Stack Architecture & Cloud Storage
+* **Palak Saini** — AI & Vector Search
+* **Nitin Kumar Sharma** — Frontend UI/UX & Media Pipeline
+
+---
+
+# PART 1 — INTRODUCTION & PROBLEM STATEMENT
+
+### Speaker: Om
+
+**"Good morning respected Sir and members of the evaluation panel.**
+
+I am **Om Prakash Verma**, and along with my team members **Palak Saini and Nitin Kumar Sharma**, we are presenting our final year project **PixSort**.
+
+PixSort is a smart photo management application that allows users to **search their photos using normal language**.
+
+Let us take a simple example.
+
+Suppose we have thousands of photos on our phone. If we need a photo of a **college ID card, a dinner with friends, or a sunset**, finding it manually can take a lot of time.
+
+Normally, photo apps mainly depend on **file names, folders, or manual tags**.
+
+Our idea was:
+
+**What if we could simply type what we remember about a photo?**
+
+For example:
+
+* 'college ID card'
+* 'happy dinner with friends'
+* 'drinking coffee outside'
+* 'sunset near water'
+
+And the system finds the matching photos automatically.
+
+We also wanted to solve another problem.
+
+Instead of storing all user photos on our own server, we use the **user's Google Drive accounts** for storage.
+
+Users can even connect multiple Google Drive accounts. If one account becomes full, the system can use the next available account.
+
+So, in simple words, PixSort has three main goals:
+
+1. **Search photos using natural language.**
+2. **Understand the content of photos using AI.**
+3. **Store photos using the user's own Google Drive accounts.**
+
+Now I would like to hand over to **Palak**, who will explain how our AI search works."
+
+---
+
+# PART 2 — AI & VECTOR SEARCH
+
+### Speaker: Palak
+
+**"Thank you, Om.**
+
+Good morning Sir.
+
+I worked mainly on the **AI and vector search part** of PixSort.
+
+When a user uploads a photo, our system processes it in two main steps.
+
+### Step 1 — Understanding the Image
+
+First, we use **Google Gemini 2.5 Flash** to understand the image.
+
+Gemini looks at the image and identifies things such as:
+
+* People
+* Objects
+* Places
+* Activities
+* Text
+* Lighting
+* Mood
+
+For example, if we upload a photo of friends having dinner, AI can understand that it contains **friends, food, a dinner table, and a happy environment**.
+
+### Step 2 — Creating a Vector
+
+After understanding the image, we convert this information into a **3072-dimensional vector** using Google's **Gemini Embedding 2** model.
+
+Now, what is a vector?
+
+We can think of a vector as a **mathematical representation of the meaning of an image**.
+
+For example:
+
+A photo of a dog and a photo of a puppy will have similar vector positions because their meanings are similar.
+
+Similarly, a photo of a beach and a photo of an ocean will also be close to each other.
+
+When the user searches something like:
+
+**'happy dinner with friends'**
+
+we also convert the search text into a vector.
+
+Then we compare the search vector with our photo vectors.
+
+For this, we use **Cosine Similarity**.
+
+The formula is:
+
+**Cosine Similarity = A · B / (|A| × |B|)**
+
+Since our vectors are normalized, this becomes basically a **dot product**.
+
+A higher similarity score means the photo is more related to the search.
+
+### Local Search
+
+One important feature is that we don't need to call Gemini every time the user searches.
+
+We create the vectors **once when the photo is uploaded**.
+
+After that, the vectors are kept in our local memory.
+
+So when the user searches, our system compares the vectors locally.
+
+This makes the search very fast and also reduces API usage.
+
+Now I will hand over to **Nitin**, who will explain our frontend and user experience."
+
+---
+
+# PART 3 — FRONTEND & USER EXPERIENCE
+
+### Speaker: Nitin
+
+**"Thank you, Palak.**
+
+Good morning Sir.
+
+I worked mainly on the **frontend, user interface, and photo interaction system**.
+
+We built our frontend using:
+
+* React
+* TypeScript
+* Tailwind CSS
+
+We focused on making the application **simple, smooth, and easy to use**.
+
+### 1. AI Search Simulator
+
+Our landing page contains an **AI Search Simulator**.
+
+Users can try example searches such as:
+
+* 'college ID card'
+* 'happy dinner with friends'
+* 'sunset on the beach'
+
+The simulator shows how our search system works.
+
+### 2. Google Drive Streaming
+
+We don't need to copy every photo to our application server.
+
+The original photos remain in the user's **Google Drive**.
+
+When the user opens a photo, we fetch the required photo from Google Drive.
+
+This reduces unnecessary storage on our server.
+
+We also use smaller thumbnails so that the gallery can load quickly.
+
+### 3. Smart Albums
+
+We have smart albums such as:
+
+* Favorites
+* College CSE
+* Certificates
+
+These albums do not create another copy of the photo.
+
+Instead, they simply store a **reference to the original photo**.
+
+So one photo can be present in multiple albums without using extra storage.
+
+### 4. Keyboard Controls
+
+We also added keyboard controls.
+
+For example:
+
+* **Arrow keys** — move between photos
+* **Space** — inspect a photo
+* **Escape** — close the viewer
+
+Now I will hand over to **Om** to explain our storage system and security."
+
+---
+
+# PART 4 — STORAGE, SECURITY & CONCLUSION
+
+### Speaker: Om
+
+**"Thank you, Nitin.**
+
+Now I will explain two important parts of our project: **Google Drive storage pooling and security**.
+
+## 1. Multiple Google Drive Accounts
+
+A user can connect more than one Google Drive account to PixSort.
+
+For example:
+
+* Drive A — 15 GB
+* Drive B — 15 GB
+
+Our system keeps these accounts in a priority order.
+
+When the user uploads a photo:
+
+**First, we try Drive A.**
+
+If Drive A does not have enough space, we automatically try **Drive B**.
+
+So the user does not have to manually select where each photo should go.
+
+Users can also change the priority or disconnect an account from the storage pool.
+
+Importantly, disconnecting an account from PixSort does **not delete the user's original files from Google Drive**.
+
+---
+
+## 2. Security
+
+Security is also an important part of our project.
+
+We support **Google Sign-In** and **Email/Password login**.
+
+For Google Drive access, we use the **drive.file permission**.
+
+This limits our application's access to files created or managed by PixSort rather than giving access to the user's entire Drive.
+
+We also keep every user's photo data separate.
+
+For example:
+
+**User A should only be able to access User A's photos.**
+
+We enforce this using **Firebase Authentication and Firestore Security Rules**.
+
+---
+
+## Final Summary
+
+So, our project provides:
+
+* **AI-based photo understanding**
+* **Natural language photo search**
+* **Vector-based similarity search**
+* **Fast local searching**
+* **Google Drive storage**
+* **Multiple Drive account support**
+* **Smart albums without duplicate files**
+* **User authentication and data isolation**
+
+The main idea of PixSort is simple:
+
+**Instead of searching for a photo by its filename, search for it by what you remember about the photo.**
+
+Now we would like to demonstrate our application."
+
+---
+
+# PART 5 — LIVE DEMO
+
+### Step 1 — Landing Page
+
+Open:
+
+**http://localhost:3000**
+
+Say:
+
+> "Sir, this is our landing page. It explains the main features of PixSort."
+
+Show the page and scroll through it.
+
+---
+
+### Step 2 — AI Search Simulator
+
+Click:
+
+**"college ID card"**
+
+Say:
+
+> "Here we can see that the system understands the content of the image and finds the relevant result."
+
+Then try:
+
+**"happy dinner with friends"**
+
+Say:
+
+> "Here the system understands things like people, food, and the overall scene."
+
+---
+
+### Step 3 — Login
+
+Click:
+
+**Sign In** or **Explore Demo as Guest**
+
+Say:
+
+> "Now we will enter the main photo management application."
+
+---
+
+### Step 4 — Natural Language Search
+
+Search:
+
+**"drinking coffee outside"**
+
+or
+
+**"sunset on water"**
+
+Say:
+
+> "Here we are not searching using the filename. We are searching based on the meaning and content of the photo."
+
+Show the matching results.
+
+---
+
+### Step 5 — Photo Inspector
+
+Open any photo.
+
+Show:
+
+* AI description
+* Subjects
+* Lighting
+* Mood
+* Google Drive information
+
+Say:
+
+> "This section shows the information extracted by our AI model."
+
+---
+
+### Step 6 — Storage Settings
+
+Open **Storage Settings**.
+
+Show:
+
+* Connected Google accounts
+* Storage usage
+* Priority
+* Disconnect option
+
+Say:
+
+> "Here we can connect multiple Google Drive accounts and manage their priority."
+
+---
+
+### Step 7 — Presentation
+
+Open the **Deck / PPT** section.
+
+Say:
+
+> "We have also integrated our project presentation directly into the application so that the complete project can be explained from the same interface."
+
+---
+
+# PART 6 — VIVA QUESTIONS
+
+## Q1. Why did you use Google Drive instead of AWS S3?
+
+**Answer:**
+
+> "Sir, our main reason was cost and ownership. With Google Drive, the user's photos remain in their own Google account instead of being stored on our server. We can also connect multiple Drive accounts."
+
+---
+
+## Q2. How does your search work without calling Gemini every time?
+
+**Answer:**
+
+> "Sir, we use Gemini when the photo is uploaded to understand the image and create its vector. We save that vector. During search, we compare the stored vectors locally, so we don't need to call Gemini for every search."
+
+---
+
+## Q3. What is a vector?
+
+**Answer:**
+
+> "Sir, a vector is a mathematical representation of the meaning of an image or text. Similar meanings have similar vectors, which allows us to compare images and searches."
+
+---
+
+## Q4. What is Cosine Similarity?
+
+**Answer:**
+
+> "Cosine Similarity measures how similar two vectors are. A higher value means the two vectors are more similar."
+
+---
+
+## Q5. What happens when the first Google Drive becomes full?
+
+**Answer:**
+
+> "Sir, our system checks the available storage before uploading. If the first Drive does not have enough space, it automatically tries the next connected Drive."
+
+---
+
+## Q6. Can PixSort access all files in the user's Google Drive?
+
+**Answer:**
+
+> "No Sir. We use the `drive.file` permission, which limits the application's access to files created or managed by PixSort."
+
+---
+
+## Q7. How do you keep different users' photos separate?
+
+**Answer:**
+
+> "Sir, every user has a unique Firebase user ID. We store this ID with the photo information and use Firestore Security Rules to make sure users can only access their own data."
+
+---
+
+## Q8. Why did you use React?
+
+**Answer:**
+
+> "Sir, React makes it easier to build a dynamic interface with reusable components. It is also suitable for applications where the UI changes frequently based on user actions."
+
+---
+
+## Q9. What is the main advantage of PixSort?
+
+**Answer:**
+
+> "Sir, the main advantage is that users can search their photos using normal language instead of remembering file names or manually organizing photos."
+
+---
+
+## Q10. What happens if a user disconnects a Google Drive account?
+
+**Answer:**
+
+> "Sir, PixSort removes that account from its storage pool. The original files in the user's Google Drive are not deleted."
+
+---
+
+# ONE-LINE PROJECT EXPLANATION
+
+If Sir suddenly asks:
+
+### "Explain your project in one line."
+
+Say:
+
+> **"Sir, PixSort is an AI-powered photo management system that understands photos, allows users to search them using natural language, and stores them in the user's Google Drive accounts."**
+
+# ONE-LINE EXPLANATION OF YOUR ROLE
+
+If Sir asks:
+
+### "What was your role in the project?"
+
+Say:
+
+> **"Sir, I worked mainly on the full-stack architecture, Google Drive storage integration, multi-account storage pooling, and backend implementation."**

@@ -1,0 +1,7 @@
+{
+  "name": "Google AI Photo Search",
+  "description": "Natural-language semantic photo search powered by Gemini Multimodal Embeddings, Cloud Storage, and Vector Search.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
